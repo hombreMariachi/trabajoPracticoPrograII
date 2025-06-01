@@ -5,21 +5,32 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Sede {
-
+	protected String codigo;		//agregado, codigo que uno genera desde el main
 	protected String nombre;
 	protected String direccion;
 	protected int capacidad;
 	protected Set<Sector> sectores;
-	protected int precioBase; // AGREGADO , NO TENIA PRECIO BASE LA SEDE PERO ES NECESARIA. HAY QUE VER COMO
-								// SE INSTANCIA EL PRECIOBASE
+	protected double precioBase; // AGREGADO , NO TENIA PRECIO BASE LA SEDE PERO ES NECESARIA.
 
-	public Sede(String nombre, String direccion, int capacidad) {
-		this.nombre = nombre;
-		this.direccion = direccion;
-		this.capacidad = capacidad;
-		this.sectores = new HashSet<>();
+	public Sede(String codigo, String nombre, String direccion, int capacidad, double precioBase) {
+	    this.codigo = codigo;
+	    this.nombre = nombre;
+	    this.direccion = direccion;
+	    this.capacidad = capacidad;
+	    this.precioBase = precioBase;
+	    this.sectores = new HashSet<>();
 	}
-
+	
+	public boolean estaAgotada() {
+	    if (this instanceof Estadio) {
+	        return capacidad <= 0;
+	    } else {
+	        throw new UnsupportedOperationException("La verificación otro tipo de sede que no sea estadio aún no está implementada.");
+	    }
+	}
+	
+	
+	
 	public abstract String obtenerTipo();
 
 	public abstract double calcularPrecioEntrada(Sector sector, double precioBase);
@@ -49,11 +60,16 @@ public abstract class Sede {
 		sectores.add(sector);
 	}
 
+	public String getCodigo() {
+	    return codigo;
+	}
+	
+	
 	public String getNombre() {
 		return nombre;
 	}
 
-	public int getPrecioBase() {
+	public double getPrecioBase() {
 		return precioBase;
 	}
 
@@ -76,7 +92,7 @@ public abstract class Sede {
 	public int getCapacidad() {
 		return capacidad;
 	}
-
+	
 	public void setCapacidad(int capacidad) {
 		this.capacidad = capacidad;
 	}

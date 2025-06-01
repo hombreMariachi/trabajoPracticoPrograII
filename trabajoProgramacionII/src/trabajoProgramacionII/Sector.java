@@ -19,7 +19,7 @@ public abstract class Sector {
 
     public abstract String obtenerTipo();
 
-    public int obtenerNumero() {
+    public int getNumero() {
         return numero;
     }
 

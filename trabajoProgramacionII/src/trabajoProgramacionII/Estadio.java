@@ -6,11 +6,11 @@ public class Estadio extends Sede {
 
     private double precioCampo;
 
-    public Estadio(String nombre, String direccion, int capacidad, double precioCampo) {
-        super(nombre, direccion, capacidad);
-        this.precioCampo = precioCampo;
+    public Estadio(String codigo, String nombre, String direccion, int capacidad, double precioBase) {
+        super(codigo, nombre, direccion, capacidad, precioBase);
     }
-
+    
+    
     @Override
     public double calcularPrecioEntrada(Sector sector, double precioBase) {
         return precioCampo;
@@ -24,5 +24,15 @@ public class Estadio extends Sede {
     @Override
     public String obtenerTipo() {
         return "Estadio";
+    }
+    
+    @Override
+    public String toString() {						//TO STRING DE ESTADIO. AGREGAR AL TAD
+        return "Estadio{" +
+               "nombre='" + nombre + '\'' +
+               ", direccion='" + direccion + '\'' +
+               ", capacidad=" + capacidad +
+               ", precioCampo=" + precioBase +
+               '}';
     }
 } 

@@ -8,45 +8,25 @@ public class MiniEstadio extends Sede {
     private int cantPuestosMerchandising;
     private double consumicionLibre;
 
-    public MiniEstadio(String nombre, String direccion, int capacidad, double consumicionLibre) {
-        super(nombre, direccion, capacidad);
-        this.consumicionLibre = consumicionLibre;
-        this.cantPuestosComida = 0;
-        this.cantPuestosMerchandising = 0;
+
+    public MiniEstadio(String codigo, String nombre, String direccion, int capacidad, double precioBase) {
+        super(codigo, nombre, direccion, capacidad, precioBase);
+    }
+
+    @Override
+    public String obtenerTipo() {
+        return "MiniEstadio";
     }
 
     @Override
     public double calcularPrecioEntrada(Sector sector, double precioBase) {
-        return sector.calcularPrecio(precioBase) + consumicionLibre;
+        return sector.calcularPrecio(precioBase);
     }
 
     @Override
     public ArrayList<Sector> obtenerSectores() {
         return new ArrayList<>(sectores);
     }
-
-    @Override
-    public String obtenerTipo() {
-        return "Miniestadio";
-    }
-
-    public void setCantPuestosComida(int cantPuestosComida) {
-        this.cantPuestosComida = cantPuestosComida;
-    }
-
-    public void setCantPuestosMerchandising(int cantPuestosMerchandising) {
-        this.cantPuestosMerchandising = cantPuestosMerchandising;
-    }
-
-    public int getCantPuestosComida() {
-        return cantPuestosComida;
-    }
-
-    public int getCantPuestosMerchandising() {
-        return cantPuestosMerchandising;
-    }
-
-    public double getConsumicionLibre() {
-        return consumicionLibre;
-    }
+    
+    
 } 

@@ -22,7 +22,34 @@ public class Usuario {
         this.entradasCompradas = new HashMap<>();
         this.fechaActual = LocalDate.now();
     }
+    
+    
+    public void mostrarEntradasUsuario() {
+        if (entradasCompradas.isEmpty()) {
+            System.out.println("El usuario no tiene entradas registradas.");
+        } else {
+            System.out.println("Entradas del usuario " + nombre + " " + apellido + ":");
+            for (Entrada entrada : entradasCompradas.values()) {
+                System.out.println(entrada);
+            }
+        }
+    }
 
+    
+    @Override
+    public String toString() {							///AGREGAR AL TAD
+        return "Usuario{" +
+               "nombre='" + nombre + '\'' +
+               ", apellido='" + apellido + '\'' +
+               ", email='" + email + '\'' +
+               ", contraseña='" + contraseña + '\'' +
+               ", entradasCompradas=" + entradasCompradas.toString() +
+               ", fechaActual=" + fechaActual +
+               '}';
+    }
+    
+    
+    
     public void agregarEntrada(Entrada entrada) {
         entradasCompradas.put(entrada.obtenerCodigo(), entrada);
     }
@@ -43,31 +70,55 @@ public class Usuario {
         return this.contraseña.equals(contraseñaIngresada);
     }
 
-    public ArrayList<Entrada> listarEntradas() {
-        ArrayList<Entrada> lista = new ArrayList<>(entradasCompradas.values());
-        lista.sort((e1, e2) -> e1.obtenerFecha().compareTo(e2.obtenerFecha()));
-        return lista;
-    }
 
-    public ArrayList<Entrada> listarEntradasFuturas() {
-        ArrayList<Entrada> futuras = new ArrayList<>();
-        for (Entrada entrada : entradasCompradas.values()) {
-            if (!entrada.obtenerFecha().isBefore(fechaActual)) {
-                futuras.add(entrada);
-            }
-        }
-        futuras.sort((e1, e2) -> e1.obtenerFecha().compareTo(e2.obtenerFecha()));
-        return futuras;
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public ArrayList<Entrada> listarEntradasPasadas() {
-        ArrayList<Entrada> pasadas = new ArrayList<>();
-        for (Entrada entrada : entradasCompradas.values()) {
-            if (entrada.obtenerFecha().isBefore(fechaActual)) {
-                pasadas.add(entrada);
-            }
-        }
-        pasadas.sort((e1, e2) -> e1.obtenerFecha().compareTo(e2.obtenerFecha()));
-        return pasadas;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getContraseña() {
+		return contraseña;
+	}
+
+	public void setContraseña(String contraseña) {
+		this.contraseña = contraseña;
+	}
+
+	public Map<String, Entrada> getEntradasCompradas() {
+		return entradasCompradas;
+	}
+
+	public void setEntradasCompradas(Map<String, Entrada> entradasCompradas) {
+		this.entradasCompradas = entradasCompradas;
+	}
+
+	public LocalDate getFechaActual() {
+		return fechaActual;
+	}
+
+	public void setFechaActual(LocalDate fechaActual) {
+		this.fechaActual = fechaActual;
+	}
+    
+    
+
 } 

@@ -17,8 +17,28 @@ public class Entrada {
     }
 
     private String generarCodigoEntrada() {
-        return codigoEspectaculo + "-" + funcion.getFecha() + "-" + sector.obtenerTipo() + sector.getNumero();
+        String base = codigoEspectaculo + "-" + funcion.getFecha();
+        
+        if (sector != null) {
+            base += "-" + sector.obtenerTipo() + sector.getNumero();
+        } else {
+            base += "-General";
+        }
+
+        return base;
     }
+    
+    @Override
+    public String toString() {
+        return "Entrada{" +
+               "codigo='" + codigoEntrada + '\'' +
+               ", espectaculo='" + codigoEspectaculo + '\'' +
+               ", fecha=" + funcion.getFecha() +
+               ", sede='" + funcion.getSede().getNombre() + '\'' +
+               ", precioBase=$" + funcion.getPrecioBase() +
+               '}';
+    }
+
 
     public double obtenerPrecio() {
         return funcion.getSede().calcularPrecioEntrada(sector, funcion.getPrecioBase());
