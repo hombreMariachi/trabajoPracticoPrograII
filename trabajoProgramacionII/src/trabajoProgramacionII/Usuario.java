@@ -2,6 +2,7 @@ package trabajoProgramacionII;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.time.LocalDate;
 
@@ -22,34 +23,7 @@ public class Usuario {
         this.entradasCompradas = new HashMap<>();
         this.fechaActual = LocalDate.now();
     }
-    
-    
-    public void mostrarEntradasUsuario() {
-        if (entradasCompradas.isEmpty()) {
-            System.out.println("El usuario no tiene entradas registradas.");
-        } else {
-            System.out.println("Entradas del usuario " + nombre + " " + apellido + ":");
-            for (Entrada entrada : entradasCompradas.values()) {
-                System.out.println(entrada);
-            }
-        }
-    }
 
-    
-    @Override
-    public String toString() {							///AGREGAR AL TAD
-        return "Usuario{" +
-               "nombre='" + nombre + '\'' +
-               ", apellido='" + apellido + '\'' +
-               ", email='" + email + '\'' +
-               ", contraseña='" + contraseña + '\'' +
-               ", entradasCompradas=" + entradasCompradas.toString() +
-               ", fechaActual=" + fechaActual +
-               '}';
-    }
-    
-    
-    
     public void agregarEntrada(Entrada entrada) {
         entradasCompradas.put(entrada.obtenerCodigo(), entrada);
     }
@@ -70,55 +44,45 @@ public class Usuario {
         return this.contraseña.equals(contraseñaIngresada);
     }
 
+    public List<IEntrada> listarEntradas() {
+        return new ArrayList<IEntrada>(entradasCompradas.values());
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public List<IEntrada> listarEntradasFuturas() {
+        List<IEntrada> entradasFuturas = new ArrayList<>();
+        for (Entrada entrada : entradasCompradas.values()) {
+            if (entrada.obtenerFecha().isAfter(fechaActual)) {
+                entradasFuturas.add(entrada);
+            }
+        }
+        return entradasFuturas;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public List<IEntrada> listarEntradasPasadas() {
+        List<IEntrada> entradasPasadas = new ArrayList<>();
+        for (Entrada entrada : entradasCompradas.values()) {
+            if (entrada.obtenerFecha().isBefore(fechaActual)) {
+                entradasPasadas.add(entrada);
+            }
+        }
+        return entradasPasadas;
+    }
 
-	public String getApellido() {
-		return apellido;
-	}
+    // Getters
+    public String getNombre() { return nombre; }
+    public String getApellido() { return apellido; }
+    public String getEmail() { return email; }
+    public String getContraseña() { return contraseña; }
+    public Map<String, Entrada> getEntradasCompradas() { return entradasCompradas; }
+    public LocalDate getFechaActual() { return fechaActual; }
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
+    // Setters
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setApellido(String apellido) { this.apellido = apellido; }
+    public void setEmail(String email) { this.email = email; }
+    public void setContraseña(String contraseña) { this.contraseña = contraseña; }
+    public void setEntradasCompradas(Map<String, Entrada> entradasCompradas) { this.entradasCompradas = entradasCompradas; }
+    public void setFechaActual(LocalDate fechaActual) { this.fechaActual = fechaActual; }
+}
 
-	public String getEmail() {
-		return email;
-	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getContraseña() {
-		return contraseña;
-	}
-
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
-	}
-
-	public Map<String, Entrada> getEntradasCompradas() {
-		return entradasCompradas;
-	}
-
-	public void setEntradasCompradas(Map<String, Entrada> entradasCompradas) {
-		this.entradasCompradas = entradasCompradas;
-	}
-
-	public LocalDate getFechaActual() {
-		return fechaActual;
-	}
-
-	public void setFechaActual(LocalDate fechaActual) {
-		this.fechaActual = fechaActual;
-	}
-    
-    
-
-} 

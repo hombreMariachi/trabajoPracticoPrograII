@@ -1,97 +1,91 @@
 package trabajoProgramacionII;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-public class Entrada {
+public class Entrada implements IEntrada {
 
     private String codigoEntrada;
     private String codigoEspectaculo;
     private Sector sector;
     private Funcion funcion;
+    private Usuario usuario;
+    private int numeroAsiento;
+    private static int contador = 1;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 
-    public Entrada(Funcion funcion, Sector sector, String codigoEspectaculo) {
+    public Entrada(Funcion funcion, Sector sector, String codigoEspectaculo, Usuario usuario) {
         this.funcion = funcion;
         this.sector = sector;
         this.codigoEspectaculo = codigoEspectaculo;
-        this.codigoEntrada = generarCodigoEntrada();
+        this.usuario = usuario;
+        this.codigoEntrada = String.valueOf(contador++);
     }
 
-    private String generarCodigoEntrada() {
-        String base = codigoEspectaculo + "-" + funcion.getFecha();
-        
-        if (sector != null) {
-            base += "-" + sector.obtenerTipo() + sector.getNumero();
-        } else {
-            base += "-General";
+    @Override
+    public double precio() {
+        if (sector == null) { // Estadio
+            return funcion.getPrecioBase();
+        } else { // Teatro o MiniEstadio
+            double precioSector = sector.calcularPrecio(funcion.getPrecioBase());
+            if (funcion.getSede() instanceof MiniEstadio) {
+                MiniEstadio mini = (MiniEstadio) funcion.getSede();
+                return precioSector + mini.getConsumicionLibre();
+            }
+            return precioSector;
         }
-
-        return base;
     }
-    
+
+    @Override
+    public String ubicacion() {
+        if (sector == null) {
+            return "CAMPO";
+        } else {
+            int fila = calcularFila();
+            return sector.obtenerTipo() + " f:" + fila + " a:" + numeroAsiento;
+        }
+    }
+
+    private int calcularFila() {
+        if (funcion.getSede() instanceof Teatro && ((Teatro)funcion.getSede()).getAsientosPorFila() > 0) {
+            return (numeroAsiento - 1) / ((Teatro)funcion.getSede()).getAsientosPorFila() + 1;
+        } else if (sector != null && funcion.getSede() instanceof MiniEstadio) {
+            return (numeroAsiento - 1) / ((MiniEstadio)funcion.getSede()).getAsientosPorFila() + 1;
+        }
+        return 1; // Default
+    }
+
     @Override
     public String toString() {
-        return "Entrada{" +
-               "codigo='" + codigoEntrada + '\'' +
-               ", espectaculo='" + codigoEspectaculo + '\'' +
-               ", fecha=" + funcion.getFecha() +
-               ", sede='" + funcion.getSede().getNombre() + '\'' +
-               ", precioBase=$" + funcion.getPrecioBase() +
-               '}';
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append(codigoEntrada)
+          .append(" - ")
+          .append(codigoEspectaculo)
+          .append(" - ")
+          .append(funcion.getFecha().format(formatter));
+        
+        // Agregar P si la fecha ya pasó
+        if (funcion.getFecha().isBefore(LocalDate.now())) {
+            sb.append(" P");
+        }
+        
+        sb.append(" - ")
+          .append(funcion.getSede().getNombre())
+          .append(" - ")
+          .append(ubicacion());
+        
+        return sb.toString();
     }
 
+    // Getters y setters
+    public String obtenerCodigo() { return codigoEntrada; }
+    public String obtenerCodigoEspectaculo() { return codigoEspectaculo; }
+    public LocalDate obtenerFecha() { return funcion.getFecha(); }
+    public Sector getSector() { return sector; }
+    public Funcion getFuncion() { return funcion; }
+    public Usuario getUsuario() { return usuario; }
+    public void setNumeroAsiento(int numeroAsiento) { this.numeroAsiento = numeroAsiento; }
+    public int getNumeroAsiento() { return numeroAsiento; }
+}
 
-    public double obtenerPrecio() {
-        return funcion.getSede().calcularPrecioEntrada(sector, funcion.getPrecioBase());
-    }
-
-    public String obtenerUbicacion() {
-        return sector.obtenerTipo() + ", sector " + sector.getNumero();
-    }
-
-    public String obtenerCodigo() {
-        return codigoEntrada;
-    }
-
-    public String obtenerCodigoEspectaculo() {
-        return codigoEspectaculo;
-    }
-
-    public LocalDate obtenerFecha() {
-        return funcion.getFecha();
-    }
-
-	public String getCodigoEntrada() {
-		return codigoEntrada;
-	}
-
-	public void setCodigoEntrada(String codigoEntrada) {
-		this.codigoEntrada = codigoEntrada;
-	}
-
-	public String getCodigoEspectaculo() {
-		return codigoEspectaculo;
-	}
-
-	public void setCodigoEspectaculo(String codigoEspectaculo) {
-		this.codigoEspectaculo = codigoEspectaculo;
-	}
-
-	public Sector getSector() {
-		return sector;
-	}
-
-	public void setSector(Sector sector) {
-		this.sector = sector;
-	}
-
-	public Funcion getFuncion() {
-		return funcion;
-	}
-
-	public void setFuncion(Funcion funcion) {
-		this.funcion = funcion;
-	}
-    
-    
-    
-} 

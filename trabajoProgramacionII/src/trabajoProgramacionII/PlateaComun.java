@@ -2,8 +2,8 @@ package trabajoProgramacionII;
 
 class PlateaComun extends Sector {
 
-    public PlateaComun(int numero, int cantidadAsientos) {
-        super(numero, cantidadAsientos);
+    public PlateaComun(int numero, int cantidadAsientos, int asientosPorFila, int porcentaje) {
+        super(numero, cantidadAsientos, asientosPorFila, porcentaje); 
     }
 
     @Override
@@ -13,6 +13,6 @@ class PlateaComun extends Sector {
 
     @Override
     public String obtenerTipo() {
-        return "COMÚN";
+        return "Comun";
     }
 }

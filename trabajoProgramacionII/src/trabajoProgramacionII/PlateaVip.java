@@ -2,8 +2,8 @@ package trabajoProgramacionII;
 
 class PlateaVip extends Sector {
 
-    public PlateaVip(int numero, int cantidadAsientos) {
-        super(numero, cantidadAsientos);
+    public PlateaVip(int numero, int cantidadAsientos, int asientosPorFila, int porcentaje) {
+        super(numero, cantidadAsientos, asientosPorFila, porcentaje); 
     }
 
     @Override
@@ -15,4 +15,4 @@ class PlateaVip extends Sector {
     public String obtenerTipo() {
         return "VIP";
     }
-} 
+}

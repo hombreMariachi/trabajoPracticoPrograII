@@ -1,9 +1,10 @@
 package trabajoProgramacionII;
 
+
 class PlateaBaja extends Sector {
 
-    public PlateaBaja(int numero, int cantidadAsientos) {
-        super(numero, cantidadAsientos);
+    public PlateaBaja(int numero, int cantidadAsientos, int asientosPorFila, int porcentaje) {
+        super(numero, cantidadAsientos, asientosPorFila, porcentaje); 
     }
 
     @Override
@@ -13,6 +14,6 @@ class PlateaBaja extends Sector {
 
     @Override
     public String obtenerTipo() {
-        return "BAJA";
+        return "Baja";
     }
 }
